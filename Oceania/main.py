@@ -22,38 +22,44 @@ import sys
 import math
 
 
+
 class Strategy:
     def __init__(self, n_spots, n_casts):
         self.n_spots = n_spots
         self.n_casts = n_casts
-        self.casts = [0] * n_spots      # how many times each spot was fished
-        self.total = [0.0] * n_spots    # kg caught at each spot
-        self.total_casts=0
+        self.casts = [0] * n_spots
+        self.total = [0.0] * n_spots
+        self.total_casts = 0
+
     def choose(self):
-       
-        
-        
-        scores=[]
-        
+        # 1. Explore every spot at least once
         for spot in range(self.n_spots):
-            average=self.total[spot]/self.casts[spot]
-            
-           
-            score=average+exploration
+            if self.casts[spot] == 0:
+                return spot
+
+        # 2. Calculate UCB score for each spot
+        scores = []
+
+        for spot in range(self.n_spots):
+            average = self.total[spot] / self.casts[spot]
+
+            exploration = math.sqrt(
+                2 * math.log(self.total_casts) / self.casts[spot]
+            )
+
+            score = average + exploration
             scores.append(score)
-            
+
+        # 3. Choose the spot with the highest score
         return max(range(self.n_spots), key=lambda s: scores[s])
 
     def update(self, spot, catch):
         self.casts[spot] += 1
         self.total[spot] += catch
         self.total_casts += 1
-        
-        
-    def update(self, spot, catch):
-        self.casts[spot] += 1
-        self.total[spot] += catch
 
+        
+    
 
 def main():
     with open("test-input.json") as f:
