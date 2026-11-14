@@ -22,4 +22,8 @@ env/
 # OS and editor files
 .DS_Store
 Thumbs.db
+<<<<<<< HEAD
 .idea/
+=======
+.idea/
+>>>>>>> 480d07c (france unfinished, iceland finished)
