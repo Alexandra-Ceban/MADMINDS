@@ -23,6 +23,9 @@ import math
 
 
 
+#casts- many times of tries
+#total- total kg
+#total_casts- casts so far 
 class Strategy:
     def __init__(self, n_spots, n_casts):
         self.n_spots = n_spots
@@ -31,18 +34,19 @@ class Strategy:
         self.total = [0.0] * n_spots
         self.total_casts = 0
 
+#try every spot once
     def choose(self):
         # 1. Explore every spot at least once
         for spot in range(self.n_spots):
             if self.casts[spot] == 0:
                 return spot
 
-        # 2. Calculate UCB score for each spot
+       
         scores = []
 
         for spot in range(self.n_spots):
             average = self.total[spot] / self.casts[spot]
-
+        #the score of each spot
             exploration = math.sqrt(
                 2 * math.log(self.total_casts) / self.casts[spot]
             )
@@ -62,13 +66,16 @@ class Strategy:
     
 
 def main():
+    #read input settings
     with open("test-input.json") as f:
         rules = json.load(f)
 
+#for each day it creates a new strategy
     for _day in range(rules["n_days"]):
         agent = Strategy(rules["n_spots"], rules["n_casts"])
         for _cast in range(rules["n_casts"]):
             spot = agent.choose()
+            #evaluator
             print(spot, flush=True)
             catch = float(sys.stdin.readline())
             agent.update(spot, catch)
