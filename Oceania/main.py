@@ -19,6 +19,7 @@ Rules of the protocol (see task_description.md):
 
 import json
 import sys
+import math
 
 
 class Strategy:
@@ -27,16 +28,28 @@ class Strategy:
         self.n_casts = n_casts
         self.casts = [0] * n_spots      # how many times each spot was fished
         self.total = [0.0] * n_spots    # kg caught at each spot
-
+        self.total_casts=0
     def choose(self):
-        # Try every spot once...
+       
+        
+        
+        scores=[]
+        
         for spot in range(self.n_spots):
-            if self.casts[spot] == 0:
-                return spot
-        # ...then always the best average so far.
-        averages = [self.total[s] / self.casts[s] for s in range(self.n_spots)]
-        return max(range(self.n_spots), key=lambda s: averages[s])
+            average=self.total[spot]/self.casts[spot]
+            
+           
+            score=average+exploration
+            scores.append(score)
+            
+        return max(range(self.n_spots), key=lambda s: scores[s])
 
+    def update(self, spot, catch):
+        self.casts[spot] += 1
+        self.total[spot] += catch
+        self.total_casts += 1
+        
+        
     def update(self, spot, catch):
         self.casts[spot] += 1
         self.total[spot] += catch
