@@ -17,6 +17,16 @@ Rules of the protocol (see task_description.md):
   * anything else you want to print goes to stderr.
 """
 
+
+#Strategia utilizează un algoritm pentru a identifica locurile de
+# pescuit care oferă cea mai mare captură. Mai întâi, testează fiecare loc cel puțin o dată pentru a colecta 
+# date inițiale. Ulterior, pentru fiecare loc, calculează average și adaugă un bonus de explorare, care
+# este mai mare pentru locurile testate de mai puține ori.  Algoritmul
+# alege locul cu cel mai mare scor, transmite numărul acestuia evaluatorului, primește cantitatea capturată
+# în kilograme și actualizează numărul de încercări și captura totală pentru acel loc. Procesul se repetă 
+# până la epuizarea tuturor încercărilor din ziua respectivă. Scopul este de a găsi un echilibru între 
+# explorarea locurilor mai puțin testate și alegerea locurilor care au demonstrat deja rezultate bune, 
+# pentru a maximiza captura totală.
 import json
 import sys
 import math
@@ -58,6 +68,7 @@ class Strategy:
         return max(range(self.n_spots), key=lambda s: scores[s])
 
     def update(self, spot, catch):
+        #increase numb of attempts
         self.casts[spot] += 1
         self.total[spot] += catch
         self.total_casts += 1
