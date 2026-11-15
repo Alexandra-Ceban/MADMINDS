@@ -20,7 +20,7 @@ env/
 *.log
 
 # Large task folders kept only on this computer
-Asia/Laos/
+Asia/Laos/images/
 
 # OS and editor files
 .DS_Store
