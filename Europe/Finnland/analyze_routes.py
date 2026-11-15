@@ -1,4 +1,4 @@
-"""Clean Finland ferry-route logs and rank towns by distinct neighbors."""
+# Clean Finland logs and rank towns by distinct neighbors
 
 from __future__ import annotations
 
@@ -11,8 +11,6 @@ from pathlib import Path
 
 DATA_PATH = Path(__file__).with_name("routes.csv")
 
-# Finnish and Swedish names used interchangeably in the hand-entered log.
-# Keys and targets use an accent-insensitive normalized spelling.
 ALIASES = {
     "abo": "turku",
     "alavo": "alavus",
@@ -126,7 +124,7 @@ def main() -> None:
     with DATA_PATH.open(encoding="utf-8-sig", newline="") as source:
         rows = list(csv.DictReader(source))
 
-    # The offices occasionally retranscribed the same log. Exact duplicate
+    # Exact duplicate
     # route rows are removed before the graph is built; the edge set also
     # collapses repeated and reverse-direction records for the same connection.
     unique_records = {
